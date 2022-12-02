@@ -1,0 +1,24 @@
+#popup {
+    display: none;
+    position: fixed;
+    top: calc(50% - 10vh/2);
+    left: auto;
+    right: auto;
+    width: 30vw;
+    height: 10vh;
+    font-size: 2rem;
+    font-weight: bolder;
+    background-color: #ccc;
+    line-height: 10vh;
+    text-align: center;
+    color: #1b1b1b;
+    animation: scaleOut 1s ease-in-out forwards;
+}
+
+@keyframes scaleOut {
+    from {
+        transform: scale(0);
+    } to {
+        transform: scale(1);
+    }
+}

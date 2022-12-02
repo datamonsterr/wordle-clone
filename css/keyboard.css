@@ -1,0 +1,25 @@
+#keyboard {
+    position: fixed;
+    bottom: 0;
+    width: var(--container-width);
+    color: var(--text-primary);
+}
+
+.key-row:nth-child(2) {
+    padding: 0px 30px;
+}
+
+.key-row {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.key-item {
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: var(--key-primary);
+    padding: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
