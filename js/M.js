@@ -2,10 +2,10 @@ export const container = document.getElementById("container");
 export const originalItems = document.querySelectorAll("#container .item");
 let k = 0;
 export let items = new Array(5);
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 6; i++) {
   items[i] = new Array(5);
 }
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 6; i++) {
   for (let j = 0; j < 5; j++) {
     items[i][j] = originalItems[k];
     k++;

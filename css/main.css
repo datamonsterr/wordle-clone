@@ -12,9 +12,9 @@ li {
 
 :root {
     --nav-height: 70px;
-    --container-width: 500px;
-    --container-height: 500px;
     --item-size: 70px;
+    --container-width: calc(var(--item-size)*5 + 60px * 2 + 10px);
+    --container-height: calc(var(--item-size)*6 + 60px * 2 + 10px);
     --background-primary: #1b1b1b;
     --background-item-done: rgba(120, 120, 120, 50);
     --key-primary: #888;

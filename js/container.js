@@ -6,14 +6,14 @@ export let wrongLetter = new Set();
 export let trueLetter = new Set();
 export let wrongPosLetter = new Set();
 let wordList = [];
-let word;
+let word = "crush";
 
 M.getWordList()
   .then((data) => {
     for (const word in data) {
       if (word.length === 5) wordList.push(word);
     }
-    word = wordList[Math.floor(Math.random() * wordList.length)];
+    // word = wordList[Math.floor(Math.random() * wordList.length)];
   })
   .catch((err) => {
     throw err;
@@ -45,7 +45,8 @@ M.body.addEventListener("keydown", (event) => {
       if (currentWord === word) {
         setTimeout(() => {
           M.popup.style.display = "block";
-          M.popup.textContent = "You Win";
+          M.popup.style.cursor = "pointer";
+          M.popup.textContent = "AGAIN?";
         }, 1500);
       }
       currentWord = "";
@@ -58,7 +59,7 @@ M.body.addEventListener("keydown", (event) => {
         M.popup.style.display = "none";
       }, 1500);
     }
-    if (currentRow === 5 && currentWord !== word) {
+    if (currentRow === 6 && currentWord !== word) {
       M.popup.style.display = "block";
       M.popup.textContent = word;
     }
