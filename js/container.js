@@ -2,9 +2,9 @@ import * as M from "./M.js";
 let currentRow = 0;
 let currentCol = 0;
 let currentWord = "";
-export let wrongLetter = new Set();
+export let falseLetter = new Set();
 export let trueLetter = new Set();
-export let wrongPosLetter = new Set();
+export let halfLetter = new Set();
 let wordList = [];
 let word = "crush";
 
@@ -19,54 +19,86 @@ M.getWordList()
     throw err;
   });
 
+function Delete() {
+  M.items[currentRow][currentCol - 1].textContent = "";
+  currentWord = currentWord.slice(0, -1);
+  currentCol--;
+}
+function ApplyAnimation(boxType, index, row) {
+  M.items[row][index].classList.add("flip-" + boxType);
+  setTimeout(() => {
+    M.items[row][index].classList.remove("flip-" + boxType);
+    M.items[row][
+      index
+    ].style.backgroundColor = `var(--background-item-${boxType})`;
+  }, (index / 8) * 1000 + 500);
+  eval(boxType + "Letter.add(currentWord[index].toUpperCase())");
+  M.items[row][index].style.animationDelay = index / 8 + "s";
+}
+
+function NextLine() {
+  currentWord = "";
+  currentRow++;
+  currentCol = 0;
+}
+
+function Losing() {
+  M.popup.style.display = "block";
+  M.popup.textContent = word;
+}
+function Winning() {
+  setTimeout(() => {
+    // M.items[0][0].classList.add("flip-true");
+    // M.items[0][0].textContent = "S";
+    M.popup.style.display = "block";
+    M.popup.style.cursor = "pointer";
+    M.popup.textContent = "AGAIN?";
+    M.popup.onclick = () => {
+      location.reload();
+    };
+  }, 1500);
+}
+
+function InvalidWord() {
+  M.popup.style.display = "block";
+  M.popup.textContent = "This word is invalid";
+  setTimeout(() => {
+    M.popup.style.display = "none";
+  }, 1500);
+}
+
 M.body.addEventListener("keydown", (event) => {
   if (M.isLetter(event.key) && currentCol < 5) {
     M.items[currentRow][currentCol].textContent = event.key.toUpperCase();
     currentWord += event.key;
     currentCol++;
-  }
-  if (event.key === "Enter" && currentWord.length === 5) {
+  } else if (event.key === "Enter" && currentWord.length === 5) {
     if (wordList.includes(currentWord)) {
+      // Flip Animation
       for (let i = 0; i < 5; i++) {
-        if (word.includes(currentWord[i])) {
-          if (word.indexOf(currentWord[i]) === i) {
-            M.items[currentRow][i].classList.add("flip-true");
-            trueLetter.add(currentWord[i].toUpperCase());
-          } else {
-            M.items[currentRow][i].classList.add("flip-half");
-            wrongPosLetter.add(currentWord[i].toUpperCase());
-          }
+        let isIncluded = word.includes(currentWord[i]);
+        let isTruePos = word.indexOf(currentWord[i]) === i;
+        if (isIncluded && isTruePos) {
+          ApplyAnimation("true", i, currentRow);
+        } else if (isIncluded) {
+          ApplyAnimation("half", i, currentRow);
         } else {
-          M.items[currentRow][i].classList.add("flip-false");
-          wrongLetter.add(currentWord[i].toUpperCase());
+          ApplyAnimation("false", i, currentRow);
         }
-        M.items[currentRow][i].style.animationDelay = i / 8 + "s";
       }
-      if (currentWord === word) {
-        setTimeout(() => {
-          M.popup.style.display = "block";
-          M.popup.style.cursor = "pointer";
-          M.popup.textContent = "AGAIN?";
-        }, 1500);
-      }
-      currentWord = "";
-      currentRow++;
-      currentCol = 0;
+      // Winning
+      let isWon = currentWord === word;
+      if (isWon) Winning();
+      NextLine();
     } else {
-      M.popup.style.display = "block";
-      M.popup.textContent = "This word is invalid";
-      setTimeout(() => {
-        M.popup.style.display = "none";
-      }, 1500);
+      InvalidWord();
     }
-    if (currentRow === 6 && currentWord !== word) {
-      M.popup.style.display = "block";
-      M.popup.textContent = word;
-    }
-  }
-  if ((event.key === "Backspace" || event.key === "Delete") && currentCol > 0) {
-    M.items[currentRow][currentCol - 1].textContent = "";
-    currentWord = currentWord.slice(0, -1);
-    currentCol--;
+    let isLost = currentRow === 6 && currentWord !== word;
+    if (isLost) Losing();
+  } else if (
+    (event.key === "Backspace" || event.key === "Delete") &&
+    currentCol > 0
+  ) {
+    Delete();
   }
 });

@@ -1,4 +1,4 @@
-import { wrongLetter, wrongPosLetter, trueLetter } from "./container.js";
+import { falseLetter, halfLetter, trueLetter } from "./container.js";
 import * as M from "./M.js";
 
 let keyItems = document.querySelectorAll(".key-item");
@@ -6,10 +6,10 @@ let keyItems = document.querySelectorAll(".key-item");
 M.body.addEventListener("keydown", (event) => {
   if (event.code === "Enter") {
     for (let i = 0; i < keyItems.length; i++) {
-      if (wrongLetter.has(keyItems[i].textContent)) {
+      if (falseLetter.has(keyItems[i].textContent)) {
         keyItems[i].style.backgroundColor = "var(--background-item-false";
       }
-      if (wrongPosLetter.has(keyItems[i].textContent)) {
+      if (halfLetter.has(keyItems[i].textContent)) {
         keyItems[i].style.backgroundColor = "var(--background-item-half)";
       }
       if (trueLetter.has(keyItems[i].textContent)) {
