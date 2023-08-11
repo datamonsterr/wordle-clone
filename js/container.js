@@ -6,7 +6,7 @@ export let falseLetter = new Set();
 export let trueLetter = new Set();
 export let halfLetter = new Set();
 let wordList = [];
-let word = "crush";
+let word = "hthao";
 
 M.getWordList()
   .then((data) => {
@@ -14,6 +14,7 @@ M.getWordList()
       if (word.length === 5) wordList.push(word);
     }
     // word = wordList[Math.floor(Math.random() * wordList.length)];
+    wordList.push("hthao");
   })
   .catch((err) => {
     throw err;
@@ -77,7 +78,7 @@ M.body.addEventListener("keydown", (event) => {
       // Flip Animation
       for (let i = 0; i < 5; i++) {
         let isIncluded = word.includes(currentWord[i]);
-        let isTruePos = word.indexOf(currentWord[i]) === i;
+        let isTruePos = word[i] === currentWord[i];
         if (isIncluded && isTruePos) {
           ApplyAnimation("true", i, currentRow);
         } else if (isIncluded) {
